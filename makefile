@@ -1,7 +1,7 @@
 all: Driver
 
 Driver:
-	cd src; g++ -g Driver.cpp MemoryOperation.cpp UtilityFunctions.cpp -o pa2; mv pa2 ..
+	cd src; g++ -g Driver.cpp MemoryOperation.cpp UtilityFunctions.cpp FirstFit.cpp BestFit.cpp WorstFit.cpp Hole.cpp -o pa2; mv pa2 ..
 
 run:
 	./pa2;
