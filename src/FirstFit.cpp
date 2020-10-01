@@ -50,6 +50,7 @@ void FirstFit::allocate(MemoryOperation* memOp)
     }
 }
 
+
 void FirstFit::deallocate(MemoryOperation* memOp)
 {
     using namespace std;
