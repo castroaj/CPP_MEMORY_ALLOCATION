@@ -1,6 +1,7 @@
 #include "../hdr/Driver.h"
 #include "../hdr/UtilityFunctions.h"
 #include "../hdr/FirstFit.h"
+#include "../hdr/BestFit.h"
 
 
 void printUsage()
@@ -8,6 +9,21 @@ void printUsage()
     using namespace std;
 
     cout << "Usage" << endl;
+}
+
+
+void printInputFile(std::vector<MemoryOperation*>* memOps)
+{
+    using namespace std;
+
+    cout << "Here is the input I read:" << endl;
+
+    for (unsigned int i = 0; i < memOps->size(); i++)
+    {
+        MemoryOperation* curMemOp = memOps->at(i);
+
+        cout << curMemOp->getRefNum() << " " << curMemOp->getOperation() << " " << curMemOp->getArguement() << endl;
+    }
 }
 
 
@@ -24,8 +40,13 @@ void startProgram(const char* filename, bool debug)
     auto memOps2 = copyVector(memOps1);
     auto memOps3 = copyVector(memOps1);
 
+    if (debug) printInputFile(memOps1);
+
     FirstFit firstFit(memOps1);
-    firstFit.runFirstFit();
+    firstFit.runFirstFit(debug);
+
+    BestFit bestFit(memOps2);
+    bestFit.runBestFit(debug);
 
     clearAndFreeVectorMO(memOps1);
     clearAndFreeVectorMO(memOps2);

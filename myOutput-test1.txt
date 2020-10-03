@@ -1,0 +1,47 @@
+Here is the input I read:
+1 1 37
+2 1 17
+3 1 23
+4 2 2
+5 2 1
+6 1 8
+First Fit Simulation:
+Here is what memory looks like:
+0-1023: free
+Request 1 is to allocate 37 bytes.
+Found hole of size 1024 at 0-1023
+Allocating hole of size 37 at location 0 for request 1
+Here is what memory looks like:
+0-36: Allocated to 1
+37-1023: free
+Request 2 is to allocate 17 bytes.
+Found hole of size 987 at 37-1023
+Allocating hole of size 17 at location 37 for request 2
+Here is what memory looks like:
+0-36: Allocated to 1
+37-53: Allocated to 2
+54-1023: free
+Request 3 is to allocate 23 bytes.
+Found hole of size 970 at 54-1023
+Allocating hole of size 23 at location 54 for request 3
+Here is what memory looks like:
+0-36: Allocated to 1
+37-53: Allocated to 2
+54-76: Allocated to 3
+77-1023: free
+Request 4 is to deallocate request 2.
+Deallocated hole for request 2 (17 bytes).
+Here is what memory looks like:
+0-36: Allocated to 1
+37-53: free
+54-76: Allocated to 3
+77-1023: free
+Request 5 is to deallocate request 1.
+Deallocated hole for request 1 (37 bytes).
+Here is what memory looks like:
+0-53: free
+54-76: Allocated to 3
+77-1023: free
+Request 6 is to allocate 8 bytes.
+Found hole of size 54 at 0-53
+Allocating hole of size 8 at location 0 for request 6

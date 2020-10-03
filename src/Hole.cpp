@@ -12,7 +12,16 @@ void Hole::toString()
 {
     using namespace std;
 
-    cout << "Start: " << m_start << "  End: " << m_end << " Is Allocated: " << m_isAllocated << " Process: " << m_refId << endl;
+    cout << m_start << "-" << m_end << ": ";
+
+    if (m_isAllocated)
+    {
+        cout << "Allocated to " << m_refId << endl;
+    }
+    else
+    {
+        cout << "free" << endl;
+    }
 }
 
 

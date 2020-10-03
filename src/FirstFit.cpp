@@ -15,7 +15,19 @@ FirstFit::~FirstFit()
     clearAndFreeVectorHole(m_holeVector);
 }
 
-void FirstFit::allocate(MemoryOperation* memOp)
+
+void FirstFit::printMemory()
+{
+    using namespace std;
+
+    cout << "Here is what memory looks like:" << endl;
+    for (unsigned int j = 0; j < m_holeVector->size(); j++)
+    {
+        m_holeVector->at(j)->toString();
+    }
+}
+
+bool FirstFit::allocate(MemoryOperation* memOp, bool debug)
 {
     using namespace std;
 
@@ -25,33 +37,34 @@ void FirstFit::allocate(MemoryOperation* memOp)
         Hole* curHole = m_holeVector->at(i);
 
         // Calculate hole size to compare to resource request
-        unsigned int holeSize = curHole->getEnd() - curHole->getStart();
+        unsigned int holeSize = (curHole->getEnd() - curHole->getStart()) + 1;
 
-        if (memOp->getArguement() < holeSize && !curHole->getIsAllocated())
+        if (memOp->getArguement() <= holeSize && !curHole->getIsAllocated())
         {
-            Hole* newHole = new Hole(curHole->getStart(), curHole->getStart() + memOp->getArguement(), true, memOp->getRefNum());
+            Hole* newHole = new Hole(curHole->getStart(), (curHole->getStart() + memOp->getArguement()) - 1, true, memOp->getRefNum());
 
+            if (debug) 
+            {
+                cout << "Found hole of size " << holeSize << " at " << curHole->getStart() << "-" << curHole->getEnd() << endl;
+                cout << "Allocating hole of size " << memOp->getArguement() << " at location " << newHole->getStart() << " for request " << memOp->getRefNum() << endl;
+            }
             // Insert new hole before old hole
             auto itPos = m_holeVector->begin() + i;
             auto newIt = m_holeVector->insert(itPos, newHole);
 
-            curHole->setStart(newHole->getEnd() + 1);
+            if (memOp->getArguement() == holeSize)
+            { m_holeVector->erase(m_holeVector->begin() + (i + 1)); }
+            else
+            { curHole->setStart(newHole->getEnd() + 1); }
 
-            cout << "Number of bytes to be allocated: " << memOp->getArguement() << endl;
-
-            for (unsigned int j = 0; j < m_holeVector->size(); j++)
-            {
-                m_holeVector->at(j)->toString();
-            }
-            
-            cout << "\n";
-            break;
+            return true;
         }
     }
+    return false;
 }
 
 
-void FirstFit::deallocate(MemoryOperation* memOp)
+void FirstFit::deallocate(MemoryOperation* memOp, bool debug)
 {
     using namespace std;
 
@@ -61,39 +74,101 @@ void FirstFit::deallocate(MemoryOperation* memOp)
     {
         Hole* curHole = m_holeVector->at(i);
 
-
         if (curHole->getRefId() == refId)
         {
-            cout << "Ref to be Deallocated: " << curHole->getRefId() << endl;
+            if (debug) cout << "Deallocated hole for request " << curHole->getRefId() << " (" << (curHole->getEnd() - curHole->getStart()) + 1 << " bytes)." << endl;
+            
             curHole->setIsAllocated(false);
             curHole->setRefId(-1);
+
+            if (i != 0)
+            {
+                Hole* previousHole = m_holeVector->at(i-1);
+
+                if (!previousHole->getIsAllocated())
+                {
+                    Hole* newHole = new Hole(previousHole->getStart(), curHole->getEnd(), false, -1);
+
+                    // Insert new hole before old hole
+                    auto itPos = m_holeVector->begin() + (i -1);
+                    auto newIt = m_holeVector->insert(itPos, newHole);
+
+                    m_holeVector->erase(m_holeVector->begin() + i);
+                    m_holeVector->erase(m_holeVector->begin() + i);
+
+                    Hole* oldCurHole = curHole;
+                    curHole = newHole;
+
+                    i--;
+
+                    delete previousHole;
+                    delete oldCurHole;
+                }
+
+            }
+
+            if (i != m_holeVector->size() - 1)
+            {
+                Hole* nextHole = m_holeVector->at(i+1);
+
+                if (!nextHole->getIsAllocated())
+                {
+                    Hole* newHole = new Hole(curHole->getStart(), nextHole->getEnd(), false, -1);
+
+                    auto itPos = m_holeVector->begin() + i;
+                    auto newIt = m_holeVector->insert(itPos, newHole);
+
+                    m_holeVector->erase(m_holeVector->begin() + (i + 1));
+                    m_holeVector->erase(m_holeVector->begin() + (i + 1));
+
+                    delete nextHole;
+                    delete curHole;
+                }
+            }
+
             break;
         }
     }
-
-    cout << "\n";
-
 }
 
 
-void FirstFit::runFirstFit()
+void FirstFit::runFirstFit(bool debug)
 {
     using namespace std;
+
+    bool isSuccess = true;
+
+    cout << "First Fit Simulation:" << endl;
 
     for (unsigned int i = 0; i < m_memOpsVector->size(); i++)
     {
         MemoryOperation* curMemOp = m_memOpsVector->at(i);
 
+        if (debug) printMemory();
+
         switch (curMemOp->getOperation())
         {
             case ALLOCATE:
-                allocate(curMemOp);
+                if (debug) cout << "Request " << curMemOp->getRefNum() << " is to allocate " << curMemOp->getArguement() << " bytes." << endl;
+                isSuccess = allocate(curMemOp, debug);
                 break;
             case DEALLOCATE:
-                deallocate(curMemOp);
+                if (debug) cout << "Request " << curMemOp->getRefNum() << " is to deallocate request " << curMemOp->getArguement() << "." << endl;
+                deallocate(curMemOp, debug);
                 break;
             default:
                 break;
         }
+        if (!isSuccess) 
+        {
+            cout << "Failed at Request " << curMemOp->getRefNum() << " for " << curMemOp->getArguement() << " bytes." << endl;
+
+            break;
+        }
     }
+
+    if (isSuccess)
+    {
+        cout << "Success" << endl;
+    }   
 }

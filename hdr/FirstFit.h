@@ -9,19 +9,18 @@
 class FirstFit 
 {
     private:
-        unsigned int m_totalMemory = 1024;
+        unsigned int m_totalMemory = 1023;
         std::vector<MemoryOperation*>* m_memOpsVector;
         std::vector<Hole*>* m_holeVector;
 
     public:
         FirstFit(std::vector<MemoryOperation*>*);
         ~FirstFit();
-        void allocate(MemoryOperation* memOp);
-        void deallocate(MemoryOperation* memOp);
-        void runFirstFit();
-
-        unsigned int getTotalMemory() { return m_totalMemory; }
-        std::vector<MemoryOperation*>* getMemOpsVector() {return m_memOpsVector; }
+        bool allocate(MemoryOperation* memOp, bool debug);
+        void deallocate(MemoryOperation* memOp, bool debug);
+        void printMemory();
+        void runFirstFit(bool debug);
 };
+
 
 #endif
