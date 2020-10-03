@@ -9,7 +9,7 @@
 class BestFit
 {
 private:
-    unsigned int m_totalMemory = 1023;
+    unsigned int m_totalMemory = 1024;
     std::vector<MemoryOperation*>* m_memOpsVector;
     std::vector<Hole*>* m_holeVector;
 

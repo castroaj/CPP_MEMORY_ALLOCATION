@@ -7,7 +7,7 @@ FirstFit::FirstFit(std::vector<MemoryOperation*>* memOpsVector)
     : m_memOpsVector(memOpsVector)
 {
     m_holeVector = new std::vector<Hole*>();
-    m_holeVector->push_back(new Hole(0U, m_totalMemory, false, -1));
+    m_holeVector->push_back(new Hole(0U, m_totalMemory - 1, false, -1));
 }
 
 FirstFit::~FirstFit()
@@ -53,7 +53,11 @@ bool FirstFit::allocate(MemoryOperation* memOp, bool debug)
             auto newIt = m_holeVector->insert(itPos, newHole);
 
             if (memOp->getArguement() == holeSize)
-            { m_holeVector->erase(m_holeVector->begin() + (i + 1)); }
+            { 
+                Hole* emptyHole = m_holeVector->at(i + 1);
+                m_holeVector->erase(m_holeVector->begin() + (i + 1));
+                delete emptyHole;
+            }
             else
             { curHole->setStart(newHole->getEnd() + 1); }
 
@@ -67,7 +71,6 @@ bool FirstFit::allocate(MemoryOperation* memOp, bool debug)
 void FirstFit::deallocate(MemoryOperation* memOp, bool debug)
 {
     using namespace std;
-
     unsigned int refId = memOp->getArguement();
 
     for (unsigned int i = 0; i < m_holeVector->size(); i++)
