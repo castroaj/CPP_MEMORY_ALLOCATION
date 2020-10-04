@@ -2,7 +2,7 @@
 
 Name: Alexander Castro
 
-Implementaion of three memory allocation algorithms:
+Implementaion of three memory allocation algorithms in c++:
 
 Description:
 
