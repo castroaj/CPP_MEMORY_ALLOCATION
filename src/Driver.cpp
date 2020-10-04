@@ -2,7 +2,7 @@
 #include "../hdr/UtilityFunctions.h"
 #include "../hdr/FirstFit.h"
 #include "../hdr/BestFit.h"
-
+#include "../hdr/WorstFit.h"
 
 void printUsage()
 {
@@ -47,6 +47,9 @@ void startProgram(const char* filename, bool debug)
 
     BestFit bestFit(memOps2);
     bestFit.runBestFit(debug);
+
+    WorstFit worstFit(memOps3);
+    worstFit.runWorstFit(debug);
 
     clearAndFreeVectorMO(memOps1);
     clearAndFreeVectorMO(memOps2);
