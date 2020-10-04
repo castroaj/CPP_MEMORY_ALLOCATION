@@ -12,19 +12,7 @@ FirstFit::FirstFit(std::vector<MemoryOperation*>* memOpsVector)
 
 FirstFit::~FirstFit()
 {
-    clearAndFreeVectorHole(m_holeVector);
-}
-
-
-void FirstFit::printMemory()
-{
-    using namespace std;
-
-    cout << "Here is what memory looks like:" << endl;
-    for (unsigned int j = 0; j < m_holeVector->size(); j++)
-    {
-        m_holeVector->at(j)->toString();
-    }
+    clearAndFreeVector<std::vector<Hole*>*>(m_holeVector);
 }
 
 bool FirstFit::allocate(MemoryOperation* memOp, bool debug)
@@ -66,7 +54,6 @@ bool FirstFit::allocate(MemoryOperation* memOp, bool debug)
     }
     return false;
 }
-
 
 void FirstFit::deallocate(MemoryOperation* memOp, bool debug)
 {
@@ -134,7 +121,6 @@ void FirstFit::deallocate(MemoryOperation* memOp, bool debug)
     }
 }
 
-
 void FirstFit::runFirstFit(bool debug)
 {
     using namespace std;
@@ -147,7 +133,7 @@ void FirstFit::runFirstFit(bool debug)
     {
         MemoryOperation* curMemOp = m_memOpsVector->at(i);
 
-        if (debug) printMemory();
+        if (debug) printMemory<vector<Hole*>*>(m_holeVector);
 
         switch (curMemOp->getOperation())
         {

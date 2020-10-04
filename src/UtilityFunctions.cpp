@@ -37,28 +37,3 @@ std::vector<MemoryOperation*>* copyVector(std::vector<MemoryOperation*>* vector)
 
     return newVector;
 }
-
-
-void clearAndFreeVectorMO(std::vector<MemoryOperation*>* vector)
-{
-    for (unsigned int i = 0; i < vector->size(); i++) {
-        delete vector->at(i);;
-    }
-
-    vector->clear();
-    vector->resize(0);
-    vector->shrink_to_fit();
-    delete vector;
-}
-
-void clearAndFreeVectorHole(std::vector<Hole*>* vector)
-{
-    for (unsigned int i = 0; i < vector->size(); i++) {
-        delete vector->at(i);;
-    }
-
-    vector->clear();
-    vector->resize(0);
-    vector->shrink_to_fit();
-    delete vector;
-}

@@ -5,8 +5,7 @@ Hole::Hole(unsigned int start, unsigned int end, bool allocated, int refId)
 {}
 
 Hole::~Hole()
-{
-}
+{}
 
 void Hole::toString()
 {

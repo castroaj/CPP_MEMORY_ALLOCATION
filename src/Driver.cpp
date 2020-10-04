@@ -51,9 +51,9 @@ void startProgram(const char* filename, bool debug)
     WorstFit worstFit(memOps3);
     worstFit.runWorstFit(debug);
 
-    clearAndFreeVectorMO(memOps1);
-    clearAndFreeVectorMO(memOps2);
-    clearAndFreeVectorMO(memOps3);
+    clearAndFreeVector<std::vector<MemoryOperation*>*>(memOps1);
+    clearAndFreeVector<std::vector<MemoryOperation*>*>(memOps2);
+    clearAndFreeVector<std::vector<MemoryOperation*>*>(memOps3);
 }
 
 int main(int argc, char* argv[])

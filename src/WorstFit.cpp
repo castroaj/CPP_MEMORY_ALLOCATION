@@ -12,18 +12,7 @@ WorstFit::WorstFit(std::vector<MemoryOperation*>* memOpsVector)
 
 WorstFit::~WorstFit()
 {
-    clearAndFreeVectorHole(m_holeVector);
-}
-
-void WorstFit::printMemory()
-{
-    using namespace std;
-
-    cout << "Here is what memory looks like:" << endl;
-    for (unsigned int j = 0; j < m_holeVector->size(); j++)
-    {
-        m_holeVector->at(j)->toString();
-    }
+    clearAndFreeVector<std::vector<Hole*>*>(m_holeVector);
 }
 
 bool WorstFit::allocate(MemoryOperation* memOp, bool debug)
@@ -154,7 +143,7 @@ void WorstFit::runWorstFit(bool debug)
     {
         MemoryOperation* curMemOp = m_memOpsVector->at(i);
 
-        if (debug) printMemory();
+        if (debug) printMemory<vector<Hole*>*>(m_holeVector);
 
         switch (curMemOp->getOperation())
         {
