@@ -3,13 +3,20 @@
 #define ALLOCATE 1
 #define DEALLOCATE 2
 
-FirstFit::FirstFit(std::vector<MemoryOperation*>* memOpsVector)
-    : m_memOpsVector(memOpsVector)
+/***********************************************************************
+ * Constructor
+ * See header file for details
+ **********************************************************************/ 
+FirstFit::FirstFit(std::vector<MemoryOperation*>* memOpsVector) : m_memOpsVector(memOpsVector)
 {
     m_holeVector = new std::vector<Hole*>();
     m_holeVector->push_back(new Hole(0U, m_totalMemory - 1, false, -1));
 }
 
+/***********************************************************************
+ * Destructor
+ * See header file for details
+ ***********************************************************************/  
 FirstFit::~FirstFit()
 {
     clearAndFreeVector<std::vector<Hole*>*>(m_holeVector);

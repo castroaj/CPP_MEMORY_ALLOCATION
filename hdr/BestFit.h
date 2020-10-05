@@ -55,6 +55,7 @@ class BestFit
          * 
          * @param debug flag that indicates whether or not logging 
          *              should occur
+         * @return whether or not allocation was successful
          **********************************************************************/
         bool allocate(MemoryOperation* memOp, bool debug);
 

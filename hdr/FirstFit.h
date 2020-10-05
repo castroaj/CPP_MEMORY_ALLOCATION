@@ -69,6 +69,8 @@ class FirstFit
          *              deallocation
          * 
          * @param debug flag that indicates whether or not logging should occur
+         * 
+         * @return whether or not allocation was successful
          ********************************************************************/ 
         void deallocate(MemoryOperation* memOp, bool debug);
 

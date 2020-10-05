@@ -1,9 +1,18 @@
+/***********************************************************************
+ * CS-450-PA2: Driver for the application. Will start up each simulation.
+ * @file Driver.cpp
+ * @author Alexander Castro
+ * @version 1.0 10/4/20
+ ***********************************************************************/
 #include "../hdr/Driver.h"
 #include "../hdr/UtilityFunctions.h"
 #include "../hdr/FirstFit.h"
 #include "../hdr/BestFit.h"
 #include "../hdr/WorstFit.h"
 
+/**
+ * 
+ **/ 
 void printUsage()
 {
     using namespace std;
@@ -59,16 +68,10 @@ void startProgram(const char* filename, bool debug)
 int main(int argc, char* argv[])
 {
     if (argc == 2)
-    {
         startProgram(argv[1], false);
-    }
     else if (argc == 3 && strcmp("-d", argv[1]) == 0)
-    {
         startProgram(argv[2], true);
-    }
     else
-    {
         printUsage();
-    }
     return 0;
 }

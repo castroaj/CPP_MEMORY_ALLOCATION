@@ -37,21 +37,41 @@ class Hole
          **********************************************************************/
         Hole(unsigned int start, unsigned int end, bool isAllocated, int refId);
 
-        
+        /**********************************************************************
+         * A destructor.
+         * Destructs a Hole object when the delete keyword is called
+         * on an instance. 
+         **********************************************************************/
         ~Hole();
 
+        /**********************************************************************
+         * Function that prints the contents of the hole to the console.
+         **********************************************************************/
         void toString();
 
+        /**********************************************************************
+         * Getter and setter for the m_start member of the class
+         **********************************************************************/
         unsigned int getStart() { return m_start; }
         void setStart(unsigned int s) { m_start = s; }
 
+        /**********************************************************************
+         * Getter and setter for the m_end member of the class
+         **********************************************************************/
         unsigned int getEnd() { return m_end; }
         void setEnd(unsigned int e) { m_end = e; }
 
+        /**********************************************************************
+         * Getter and setter for the m_isAllocated member of the class
+         **********************************************************************/
         bool getIsAllocated() { return m_isAllocated; }
         void setIsAllocated(bool a) { m_isAllocated = a; }
 
+        /**********************************************************************
+         * Getter and setter for the m_refId member of the class
+         **********************************************************************/
         int getRefId() { return m_refId; }
         void setRefId(int e) { m_refId = e; }
 };
+
 #endif

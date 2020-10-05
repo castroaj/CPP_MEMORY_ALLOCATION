@@ -1,15 +1,32 @@
+/***********************************************************************
+ * CS-450-PA2: Implementation file of the BestFit memory allocation 
+ *             simulation.
+ * @file BestFit.cpp
+ * @author Alexander Castro
+ * @version 1.0 10/4/20
+ ***********************************************************************/
 #include "../hdr/BestFit.h"
 
 #define ALLOCATE 1
 #define DEALLOCATE 2
 
-BestFit::BestFit(std::vector<MemoryOperation*>* memOpsVector)
-    : m_memOpsVector(memOpsVector)
+/***********************************************************************
+ * Constructor
+ * See header file for details
+ **********************************************************************/ 
+BestFit::BestFit(std::vector<MemoryOperation*>* memOpsVector) : m_memOpsVector(memOpsVector)
 {
+    // Instantiate the hole vector member
     m_holeVector = new std::vector<Hole*>();
+
+    // Add the first hole of unalloacted memory from 0 to m_totalMemory
     m_holeVector->push_back(new Hole(0U, m_totalMemory - 1, false, -1));
 }
 
+/***********************************************************************
+ * Destructor
+ * See header file for details
+ ***********************************************************************/ 
 BestFit::~BestFit()
 {
     clearAndFreeVector<std::vector<Hole*>*>(m_holeVector);
