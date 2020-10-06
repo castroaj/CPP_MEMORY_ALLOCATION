@@ -62,4 +62,4 @@ Running:
 
 Known Bugs:
 
-	The are no known bugs for any of the scheduling algorithms
+	The are no known bugs for any of the memory allocation algorithms
