@@ -1,5 +1,16 @@
+/***********************************************************************
+ * CS-450-PA2: Implementation file of a couple utility functions that are
+ *             used throughout the application.
+ * @file UtilityFunctions.cpp
+ * @author Alexander Castro
+ * @version 1.0 10/4/20
+ ***********************************************************************/
 #include "../hdr/UtilityFunctions.h"
 
+/***********************************************************************
+ * Helper function for reading input data
+ * See header file for details
+ **********************************************************************/ 
 std::vector<MemoryOperation*>* getMemoryOperationsFromFile(const char* filename)
 {
     using namespace std;
@@ -25,6 +36,11 @@ std::vector<MemoryOperation*>* getMemoryOperationsFromFile(const char* filename)
     }
 }
 
+/***********************************************************************
+ * Helper function used to copyVector into another completely different
+ * vector.
+ * See header file for details
+ **********************************************************************/ 
 std::vector<MemoryOperation*>* copyVector(std::vector<MemoryOperation*>* vector)
 {
     auto newVector = new std::vector<MemoryOperation*>();

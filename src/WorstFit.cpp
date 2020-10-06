@@ -22,6 +22,10 @@ WorstFit::~WorstFit()
     clearAndFreeVector<std::vector<Hole*>*>(m_holeVector);
 }
 
+/***********************************************************************
+ * Function that allocates memory for a given memory request
+ * See header file for details
+ ***********************************************************************/ 
 bool WorstFit::allocate(MemoryOperation* memOp, bool debug)
 {
         using namespace std;
@@ -73,22 +77,34 @@ bool WorstFit::allocate(MemoryOperation* memOp, bool debug)
     return true;
 }
 
+/***********************************************************************
+ * Function that deallocates memory for a previous memory request
+ * See header file for details
+ ***********************************************************************/ 
 void WorstFit::deallocate(MemoryOperation* memOp, bool debug)
 {
     using namespace std;
     unsigned int refId = memOp->getArguement();
 
+    // Loop to find the hole with the ref id that needs to be deallocated
     for (unsigned int i = 0; i < m_holeVector->size(); i++)
     {
+        // Pointer to current hole 
         Hole* curHole = m_holeVector->at(i);
 
         if (curHole->getRefId() == refId)
         {
             if (debug) cout << "Deallocated hole for request " << curHole->getRefId() << " (" << (curHole->getEnd() - curHole->getStart()) + 1 << " bytes)." << endl;
             
+            // Deallocate the current hole of memory
             curHole->setIsAllocated(false);
             curHole->setRefId(-1);
 
+            /**
+             * The following code will check for adjacent free memory before the 
+             * newly deallocated memory. If the memory is free, it will merge the 
+             * two holes.
+             */ 
             if (i != 0)
             {
                 Hole* previousHole = m_holeVector->at(i-1);
@@ -97,24 +113,36 @@ void WorstFit::deallocate(MemoryOperation* memOp, bool debug)
                 {
                     Hole* newHole = new Hole(previousHole->getStart(), curHole->getEnd(), false, -1);
 
-                    // Insert new hole before old hole
+                    // Insert newHole before the previous hole
                     auto itPos = m_holeVector->begin() + (i -1);
                     auto newIt = m_holeVector->insert(itPos, newHole);
 
+                    // Erase the two old free memory holes
                     m_holeVector->erase(m_holeVector->begin() + i);
                     m_holeVector->erase(m_holeVector->begin() + i);
 
+                    // Get a pointer to the old hole for freeing
                     Hole* oldCurHole = curHole;
+                    
+                    // Update the curHole pointer in order to continue
+                    // using it within the function
                     curHole = newHole;
 
+                    // Decrement looping variable in order to account for
+                    // removed element
                     i--;
 
+                    // Free up unused memory
                     delete previousHole;
                     delete oldCurHole;
                 }
-
             }
 
+            /**
+             * The following code will check for adjacent free memory after the 
+             * newly deallocated memory. If the memory is free, it will merge the 
+             * two holes.
+             */ 
             if (i != m_holeVector->size() - 1)
             {
                 Hole* nextHole = m_holeVector->at(i+1);
@@ -123,22 +151,29 @@ void WorstFit::deallocate(MemoryOperation* memOp, bool debug)
                 {
                     Hole* newHole = new Hole(curHole->getStart(), nextHole->getEnd(), false, -1);
 
+                    // Insert newHole before the current hole
                     auto itPos = m_holeVector->begin() + i;
                     auto newIt = m_holeVector->insert(itPos, newHole);
 
+                    // Erase the two old free memory holes
                     m_holeVector->erase(m_holeVector->begin() + (i + 1));
                     m_holeVector->erase(m_holeVector->begin() + (i + 1));
 
+                    // Free up unused memory
                     delete nextHole;
                     delete curHole;
                 }
             }
-
+            // Exit the loop once the deallocation is finished
             break;
         }
     }
 }
 
+/************************************************************************
+ * Driver for the Worst Fit Memory Allocation simulation
+ * See header file for details
+ ************************************************************************/ 
 void WorstFit::runWorstFit(bool debug)
 {
         using namespace std;
