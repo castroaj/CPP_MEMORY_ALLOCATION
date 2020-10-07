@@ -204,7 +204,8 @@ void FirstFit::runFirstFit(bool debug)
         if (!isSuccess) 
         {
             cout << "Failed at Request " << curMemOp->getRefNum() << " for " << curMemOp->getArguement() << " bytes." << endl;
-
+            int frag = getExternalFragmentation(m_holeVector);
+            cout << "External Fragmentation: " << frag << " bytes" << endl;
             break;
         }
     }

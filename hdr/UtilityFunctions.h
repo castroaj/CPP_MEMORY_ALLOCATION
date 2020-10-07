@@ -31,6 +31,8 @@ std::vector<MemoryOperation*>* getMemoryOperationsFromFile(const char* filename)
  *****************************************************************************/ 
 std::vector<MemoryOperation*>* copyVector(std::vector<MemoryOperation*>* vector);
 
+int getExternalFragmentation(std::vector<Hole*>* holeVector);
+
 /******************************************************************************
  * Helper templated function that clears and frees the memory of a
  * given vector.

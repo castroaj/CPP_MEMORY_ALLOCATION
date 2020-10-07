@@ -53,3 +53,21 @@ std::vector<MemoryOperation*>* copyVector(std::vector<MemoryOperation*>* vector)
 
     return newVector;
 }
+
+int getExternalFragmentation(std::vector<Hole*>* holeVector)
+{
+    int totalFragmentation = 0;
+
+    for (unsigned int i = 0; i < holeVector->size(); i++)
+    {
+        Hole* curHole = holeVector->at(i);
+
+        if (!curHole->getIsAllocated())
+        { 
+            totalFragmentation += curHole->getEnd() - curHole->getStart();
+        }
+    }
+
+    return totalFragmentation;
+}
+
