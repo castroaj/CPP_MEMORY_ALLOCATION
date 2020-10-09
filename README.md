@@ -48,7 +48,7 @@ Running:
 			Make sure the pa2 executable file is in your current directory and then
 			run the following command.
 
-			./pa2 [Processes Input File]
+			./pa2 [Request Input File]
 
 	Debug Mode:
 		This mode will run the simulation using the given input file and also
@@ -58,7 +58,7 @@ Running:
 			Make sure the pa2 executable file is in your current directory and then 
 			run the following command.
 
-			./pa2 -d [Processes Input File]
+			./pa2 -d [Request Input File]
 
 Known Bugs:
 
