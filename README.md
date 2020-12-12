@@ -1,6 +1,4 @@
-# CS-450-PA2
-
-Name: Alexander Castro
+Author: Alexander Castro
 
 Implementaion of three memory allocation algorithms in c++:
 
